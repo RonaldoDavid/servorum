@@ -155,8 +155,9 @@ code { font-family: monospace }
 
 }
 
-.img img {
-	padding: 5px;
+.img img, .img canvas {
+	width: 100vw;
+	/*padding: 5px;*/
 	display: block;
 	max-height: calc(100vh - 147px);
 	max-width: 100%;
