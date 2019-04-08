@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SERVORUM</title>
+    <link rel="stylesheet" href="./css/main.css">
+  </head>
+  <body>
+    <div class="top">
+      <div class="bar">
+        <p class="title">Clasificador de Imágenes por Seleción Automática - SERVORUM</p>
+        <div class="buttons">
+          <i id="min">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </i>
+          <i id="close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </i>
+        </div>
+      </div> <!-- end BAR -->
+
+      <div class="menu">
+
+        <button id="save" onclick="guardar()">Guardar</button>
+
+        <div class="centered">
+          NOMBRE_DEL_ARCHIVO.MP4 <span class="separator">·</span> FRAME XXXX / XXXX
+        </div>
+
+      </div> <!-- end MENU -->
+    </div> <!-- end TOP -->
+
+    <div class="window">
+    
+      <div class="player">
+        
+        <div class="img">
+          <img id="img" src="../images/0.jpg">
+          <!-- o un canvas, hay que ver cómo puedo pillar las pos en las que se ha dado click -->
+        </div>
+
+        <div class="contols">
+          <p class="txt-tag">SELECCIONA <span id="tag">DIANA(S)</span></p>
+          <!-- <input id="pos" type="range" min="0" max="99" value="49" oninput="ir_a()"> -->
+          <input id="pos" type="range" min="0" max="2" value="0" oninput="ir_a()">
+        </div>
+
+      </div>
+
+    </div> <!-- end WINDOW -->
+
+    <script src="../assets/jquery.min.js"></script>
+    <script>
+      require('../renderer.js');
+    </script>
+    <script>
+
+      var pos = $('#pos'),
+          pos_val = pos.val(),
+          img = $('#img');
+
+      function ir_a() {
+        pos_val = pos.val()
+        console.log(pos_val);
+
+        // img.attr('src', `../images/${pos_val}.jpg`);
+        var parent = img.parent()[0];
+        
+        console.log(parent);
+        console.log(img);
+
+        // parent.html(`<img id="img" src="../images/${pos_val}.jpg">`);
+        $(parent).add('img').attr({"id": "img", "src": `../images/${pos_val}.jpg`});
+
+        img = $('#img');
+
+        console.log(`> Width___ ${img[0].width}\n> Height__ ${img[0].height}`);
+
+      }
+
+      ir_a();
+
+    </script>
+  </body>
+</html>
