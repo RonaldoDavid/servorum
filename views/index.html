@@ -81,8 +81,8 @@
             this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
             this.Width = 12;
             this.Height = 20;
-            this.XPos = 0;
-            this.YPos = 0;
+            this.x = 0;
+            this.y = 0;
         }
 
         var Markers = new Array();
@@ -90,15 +90,16 @@
         var mouseClicked = function (mouse) {
             // Get corrent mouse coords
             var rect = canvas.getBoundingClientRect();
-            var mouseXPos = (mouse.x - rect.left);
-            var mouseYPos = (mouse.y - rect.top);
+            var mouseXPos = (mouse.x);
+            var mouseYPos = (mouse.y);
 
-            console.log("Marker added");
+            console.log(`Marker added at `);
 
             // Move the marker when placed to a better location
             var marker = new Marker();
-            marker.XPos = mouseXPos - (marker.Width / 2);
-            marker.YPos = mouseYPos - marker.Height;
+            marker.id = pos_val;
+            marker.x  = mouseXPos - (marker.Width / 2);
+            marker.y  = mouseYPos - marker.Height;
 
             Markers.push(marker);
         }
@@ -118,6 +119,11 @@
         };
 
         var draw = function () {
+
+
+            // console.log(Markers);
+
+            
             // Clear Canvas
             context.fillStyle = "#000";
             context.fillRect(0, 0, canvas.width, canvas.height);
@@ -145,21 +151,21 @@
             for (var i = 0; i < Markers.length; i++) {
                 var tempMarker = Markers[i];
                 // Draw marker
-                context.drawImage(tempMarker.Sprite, tempMarker.XPos, tempMarker.YPos, tempMarker.Width, tempMarker.Height);
+                context.drawImage(tempMarker.Sprite, tempMarker.x, tempMarker.y, tempMarker.Width, tempMarker.Height);
 
                 // Calculate postion text
-                var markerText = "x:" + tempMarker.XPos + ", y:" + tempMarker.YPos;
+                var markerText = "x:" + tempMarker.x + ", y:" + tempMarker.y;
 
                 // Draw a simple box so you can see the position
                 var textMeasurements = context.measureText(markerText);
                 context.fillStyle = "#666";
                 context.globalAlpha = 0.7;
-                context.fillRect(tempMarker.XPos - (textMeasurements.width / 2), tempMarker.YPos - 15, textMeasurements.width, 20);
+                context.fillRect(tempMarker.x - (textMeasurements.width / 2), tempMarker.y - 15, textMeasurements.width, 20);
                 context.globalAlpha = 1;
 
                 // Draw position above
                 context.fillStyle = "#000";
-                context.fillText(markerText, tempMarker.XPos, tempMarker.YPos);
+                context.fillText(markerText, tempMarker.x, tempMarker.y);
             }
         };
 
