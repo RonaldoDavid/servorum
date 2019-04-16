@@ -9,14 +9,14 @@
     <div class="top">
       <div class="bar">
         <p class="title">Clasificador de Imágenes por Seleción Automática - SERVORUM</p>
-        <div class="buttons">
+        <!--<div class="buttons">
           <i id="min">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </i>
           <i id="close">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </i>
-        </div>
+        </div>-->
       </div> <!-- end BAR -->
 
       <div class="menu">
@@ -32,11 +32,13 @@
 
     <div class="window">
     
+    	<span id="pointer"></span>
+
       <div class="player">
         
         <div class="img">
-          <!-- <img id="img" src="../images/0.jpg"> -->
-          <canvas id="canvas"></canvas>
+          <img id="img" src="../images/0.jpg"> 
+          <!-- <canvas id="canvas" width="2840px" height="1890px"></canvas>-->
           <!-- o un canvas, hay que ver cómo puedo pillar las pos en las que se ha dado click -->
         </div>
 
@@ -52,7 +54,7 @@
 
     <script src="../assets/jquery.min.js"></script>
     <script>
-      require('../renderer.js');
+      // require('../renderer.js');
     </script>
     <script>
 
@@ -60,138 +62,31 @@
           pos_val = pos.val(),
           img = $('#img');
 
-      var anterior;
+      var data = []; // Pos de X obj. en Y img.
 
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext("2d");
+      $("#img").on("click", function(event) {
+				var img_pos = img.postition();
 
-      window.addEventListener('resize', resizeCanvas, false);
-
-      function resizeCanvas() {
-              canvas.width = window.innerWidth;
-              canvas.height = window.innerHeight;
-
-              /**
-               * Your drawings need to be inside this function otherwise they will be reset when 
-               * you resize the browser window and the canvas goes will be cleared.
-               */
-
-        var Marker = function () {
-            this.Sprite = new Image();
-            this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
-            this.Width = 12;
-            this.Height = 20;
-            this.x = 0;
-            this.y = 0;
-        }
-
-        var Markers = new Array();
-
-        var mouseClicked = function (mouse) {
-            // Get corrent mouse coords
-            var rect = canvas.getBoundingClientRect();
-            var mouseXPos = (mouse.x);
-            var mouseYPos = (mouse.y);
-
-            console.log(`Marker added at `);
-
-            // Move the marker when placed to a better location
-            var marker = new Marker();
-            marker.id = pos_val;
-            marker.x  = mouseXPos - (marker.Width / 2);
-            marker.y  = mouseYPos - marker.Height;
-
-            Markers.push(marker);
-        }
-
-        // Add mouse click event listener to canvas
-        canvas.addEventListener("mousedown", mouseClicked, false);
-
-        var firstLoad = function () {
-            context.font = "15px Georgia";
-            context.textAlign = "center";
-        }
-
-        firstLoad();
-
-        var main = function () {
-            draw();
-        };
-
-        var draw = function () {
-
-
-            // console.log(Markers);
-
-            
-            // Clear Canvas
-            context.fillStyle = "#000";
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            // Map sprite
-            var mapSprite = new Image();
-            mapSprite.src = `../images/${pos_val}.jpg`;
-
-            // Draw map
-            // Sprite, X location, Y location, Image width, Image height
-            // You can leave the image height and width off, if you do it will draw the image at default size
-            // context.drawImage(
-            //   mapSprite,
-            //   (canvas.width / 2),
-            //   (canvas.height / 2)
-            // );
-            context.drawImage(
-              mapSprite,
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-
-            // Draw markers
-            for (var i = 0; i < Markers.length; i++) {
-                var tempMarker = Markers[i];
-                // Draw marker
-                context.drawImage(tempMarker.Sprite, tempMarker.x, tempMarker.y, tempMarker.Width, tempMarker.Height);
-
-                // Calculate postion text
-                var markerText = "x:" + tempMarker.x + ", y:" + tempMarker.y;
-
-                // Draw a simple box so you can see the position
-                var textMeasurements = context.measureText(markerText);
-                context.fillStyle = "#666";
-                context.globalAlpha = 0.7;
-                context.fillRect(tempMarker.x - (textMeasurements.width / 2), tempMarker.y - 15, textMeasurements.width, 20);
-                context.globalAlpha = 1;
-
-                // Draw position above
-                context.fillStyle = "#000";
-                context.fillText(markerText, tempMarker.x, tempMarker.y);
-            }
-        };
-
-        setInterval(main, (1000 / 30)); // Refresh 60 times a second
-
-      }
-      resizeCanvas();
-
-
+				console.log("X Coordinate: " + x + " Y Coordinate: " + y);
+				$('#pointer').css({"top": y + img_pos.top, "left": x + img.offsetLeft});
+			});
 
       function ir_a() {
         pos_val = pos.val()
         console.log(pos_val);
 
-        // img.attr('src', `../images/${pos_val}.jpg`);
-        // var parent = img.parent()[0];
+        img.attr('src', `../images/${pos_val}.jpg`);
+        var parent = img.parent()[0];
         
-        // console.log(parent);
-        // console.log(img);
+        console.log(parent);
+        console.log(img);
 
-        // // parent.html(`<img id="img" src="../images/${pos_val}.jpg">`);
-        // $(parent).add('img').attr({"id": "img", "src": `../images/${pos_val}.jpg`});
+        // parent.html(`<img id="img" src="../images/${pos_val}.jpg">`);
+        $(parent).add('img').attr({"id": "img", "src": `./images/${pos_val}.jpg`});
 
-        // img = $('#img');
+        img = $('#img');
 
-        // console.log(`> Width___ ${img[0].width}\n> Height__ ${img[0].height}`);
+        console.log(`> Width___ ${img[0].width}\n> Height__ ${img[0].height}`);
 
       }
 

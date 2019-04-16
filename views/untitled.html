@@ -1,0 +1,115 @@
+var canvas = document.getElementById('canvas');
+      var context = canvas.getContext("2d");
+
+      canvas.width = 2840;
+	  canvas.height = 1890;
+
+      /*window.addEventListener('resize', resizeCanvas, false);*/
+
+      /*
+function resizeCanvas() {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+      */
+
+        var Marker = function () {
+            this.Sprite = new Image();
+            this.Sprite.src = "http://www.clker.com/cliparts/w/O/e/P/x/i/map-marker-hi.png"
+            this.Width = 24;
+            this.Height = 40;
+            this.x = 0;
+            this.y = 0;
+        }
+
+        var Markers = new Array();
+
+        var mouseClicked = function (mouse) {
+        	console.log(mouse);
+            // Get corrent mouse coords
+            var rect = canvas.getBoundingClientRect();
+            var mouseXPos = (mouse.clientX);
+            var mouseYPos = (mouse.y);
+
+            console.log(`Marker added at x${mouseXPos}, y${mouseYPos}`);
+
+            Markers = [];
+
+            // Move the marker when placed to a better location
+            var marker = new Marker();
+            marker.id = pos_val;
+            marker.x  = mouseXPos;
+            marker.y  = mouseYPos;
+
+            Markers.push(marker);
+        }
+
+        // Add mouse click event listener to canvas
+        canvas.addEventListener("mousedown", mouseClicked, false);
+
+        var firstLoad = function () {
+            context.font = "55px Roboto Condensed";
+            context.textAlign = "center";
+        }
+
+        firstLoad();
+
+        var main = function () {
+            draw();
+        };
+
+        var draw = function (mouse) {
+
+            // Clear Canvas
+            context.fillStyle = "#000";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            // Map sprite
+            var mapSprite = new Image();
+            mapSprite.src = `../images/${pos_val}.jpg`;
+
+            // Draw map
+            // Sprite, X location, Y location, Image width, Image height
+            // You can leave the image height and width off, if you do it will draw the image at default size
+            // context.drawImage(
+            //   mapSprite,
+            //   (canvas.width / 2),
+            //   (canvas.height / 2)
+            // );
+            context.drawImage(
+              mapSprite,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
+            // Draw markers
+            for (var i = 0; i < Markers.length; i++) {
+                var tempMarker = Markers[i];
+                // Draw marker
+                context.drawImage(tempMarker.Sprite, tempMarker.x, tempMarker.y, tempMarker.Width, tempMarker.Height);
+
+                // Calculate postion text
+                var markerText = "x:" + tempMarker.x + ", y:" + tempMarker.y;
+
+                // Draw a simple box so you can see the position
+                var textMeasurements = context.measureText(markerText);
+                context.fillStyle = "#666";
+                context.globalAlpha = 0.5;
+                context.fillRect(
+                	tempMarker.x - (textMeasurements.width / 2),
+                	tempMarker.y - 55,
+                	textMeasurements.width,
+                	60
+                );
+                context.globalAlpha = 1;
+
+                // Draw position above
+                context.fillStyle = "#000";
+                context.fillText(markerText, tempMarker.x, tempMarker.y);
+            }
+        };
+
+        setInterval(main, (1000 / 30)); // Refresh 60 times a second
+
+      /*}
+      resizeCanvas();*/
