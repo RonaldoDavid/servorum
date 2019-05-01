@@ -24,7 +24,7 @@
         <button id="save" onclick="guardar()">Guardar</button>
 
         <div class="centered">
-          NOMBRE_DEL_ARCHIVO.MP4 <span class="separator">·</span> FRAME XXXX / XXXX
+          <!-- NOMBRE_DEL_ARCHIVO.MP4 <span class="separator">·</span> FRAME XXXX / XXXX -->
         </div>
 
       </div> <!-- end MENU -->
@@ -43,7 +43,7 @@
         </div>
 
         <div class="contols">
-          <p class="txt-tag">SELECCIONA <span id="tag">DIANA(S)</span></p>
+          <p class="txt-tag">SELECCIONA <span id="tag"></span></p>
           <!-- <input id="pos" type="range" min="0" max="99" value="49" oninput="ir_a()"> -->
           <input id="pos" type="range" min="0" max="2" value="0" oninput="ir_a()">
         </div>
@@ -53,44 +53,34 @@
     </div> <!-- end WINDOW -->
 
     <script src="../assets/jquery.min.js"></script>
-    <script>
-      // require('../renderer.js');
-    </script>
+    
+    <script src="./js/coordenadas.js"></script>
+    <script src="./js/mover_entre_imagenes.js"></script>
+    
     <script>
 
       var pos = $('#pos'),
           pos_val = pos.val(),
-          img = $('#img');
+          img = $('#img'),
+          objeto = "pico";
 
-      var data = []; // Pos de X obj. en Y img.
+      var data = [] // Pos de X obj. en Y img.
 
-      $("#img").on("click", function(event) {
-				var img_pos = img.postition();
+      // Init
+      $('#tag').html(objeto)
 
-				console.log("X Coordinate: " + x + " Y Coordinate: " + y);
-				$('#pointer').css({"top": y + img_pos.top, "left": x + img.offsetLeft});
-			});
+      // Valores para hacer el map() (la regla de tres).
+      var img_h_r = img.height(),
+          img_w_r = img.width(),
+          img_h_o = ,
+          img_w_o = ,
+          dis_h = $(window).innerHeight(),
+          dis_w = $(window).innerWidth();
 
-      function ir_a() {
-        pos_val = pos.val()
-        console.log(pos_val);
+      // Functions
+      coordenadas()
+      mover_entre_imagenes()
 
-        img.attr('src', `../images/${pos_val}.jpg`);
-        var parent = img.parent()[0];
-        
-        console.log(parent);
-        console.log(img);
-
-        // parent.html(`<img id="img" src="../images/${pos_val}.jpg">`);
-        $(parent).add('img').attr({"id": "img", "src": `./images/${pos_val}.jpg`});
-
-        img = $('#img');
-
-        console.log(`> Width___ ${img[0].width}\n> Height__ ${img[0].height}`);
-
-      }
-
-      ir_a();
 
     </script>
   </body>

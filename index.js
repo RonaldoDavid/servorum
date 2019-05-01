@@ -3,11 +3,11 @@ var express = require('express'),
 		app = express()
 
 var imgs = [
-	"http://localhost/images/0.jpg",
-	"http://localhost/images/1.jpg",
-	"http://localhost/images/2.jpg"
+	"http://localhost:3000/images/0.jpg",
+	"http://localhost:3000/images/1.jpg",
+	"http://localhost:3000/images/2.jpg"
 ]
- 
+
 app.use(express.static(__dirname + '/views'));
 
 // Index
